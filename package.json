@@ -1,0 +1,12 @@
+{
+  "name": "Blog-Back-Node",
+  "version": "1.0.0",
+  "description": "node version for the blog manangement",
+  "main": "index.js",
+  "repository": {
+    "url": "https://github.com/xiabin1235910/Blog-Back-Node.git",
+    "type": "git"
+  },
+  "author": "benxia <xiabin@keytonecloud.com>",
+  "license": "MIT"
+}
