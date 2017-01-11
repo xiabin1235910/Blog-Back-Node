@@ -13,7 +13,8 @@
   "author": "benxia <xiabin@keytonecloud.com>",
   "license": "MIT",
   "dependencies": {
-    "koa": "next"
+    "koa": "next",
+    "koa-router": "^7.0.1"
   },
   "devDependencies": {
     "babel-plugin-transform-async-to-generator": "^6.16.0",
