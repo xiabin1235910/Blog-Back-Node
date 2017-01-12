@@ -8,12 +8,12 @@ router.get('/', async (ctx, next) => {
 });
 
 router.get('/:id', async (ctx, next) => {
-  let param = this.params.id;
+  let param = ctx.params.id;
   // await http request to other http server
 });
 
 router.post('/', async (ctx, next) => {
-  let user = this.body;
+  let user = ctx.body;
   // await http request to other http server
 });
 
