@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 
 export class HttpError extends Error {
   constructor(message, response, request) {
+    super();ß
     this.message = message;
     this.response = response;
     this.request = request;

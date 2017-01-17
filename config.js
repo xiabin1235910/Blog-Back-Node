@@ -1,3 +1,3 @@
 const url = 'http://localhost:8080/service';
 
-export default config = {url};
+export default {url};
