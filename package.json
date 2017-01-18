@@ -8,6 +8,8 @@
     "type": "git"
   },
   "scripts": {
+    "micro": "micro ./src/micro/index.js",
+    "build": "webpack --config ./bin/webpack.config.js",
     "start": "babel-node index.js"
   },
   "author": "benxia <xiabin@keytonecloud.com>",
@@ -15,6 +17,7 @@
   "dependencies": {
     "koa": "next",
     "koa-router": "^7.0.1",
+    "micro": "^6.2.0",
     "node-fetch": "^1.6.3",
     "promise-polyfill": "^6.0.2"
   },
