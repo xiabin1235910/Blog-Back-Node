@@ -1,6 +1,6 @@
 import Koa from 'koa';
 
-import config from '../config'
+import config from '../config';
 
 import { auth, blogEngine } from './middleware';
 import * as route from './routers';
@@ -21,4 +21,4 @@ app.use(ctx => {
   ctx.body = 'hello world';
 });
 
-export default app
+export default app;
