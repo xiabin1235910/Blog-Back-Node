@@ -15,9 +15,11 @@
   "author": "benxia <xiabin@keytonecloud.com>",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^3.4.7",
     "koa": "next",
     "koa-router": "^7.0.1",
     "micro": "^6.2.0",
+    "mkdirp": "^0.5.1",
     "node-fetch": "^1.6.3",
     "promise-polyfill": "^6.0.2"
   },
