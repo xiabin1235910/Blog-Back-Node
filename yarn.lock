@@ -2093,6 +2093,10 @@ path-type@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
+pattern-guard:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/pattern-guard/-/pattern-guard-1.0.0.tgz#677c49aa7d6a9b3d11996d5fca153d4aea116b43"
+
 pbkdf2@^3.0.3:
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.9.tgz#f2c4b25a600058b3c3773c086c37dbbee1ffe693"

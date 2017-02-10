@@ -21,6 +21,7 @@
     "micro": "^6.2.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^1.6.3",
+    "pattern-guard": "^1.0.0",
     "promise-polyfill": "^6.0.2"
   },
   "devDependencies": {
