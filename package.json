@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.4.7",
+    "cheerio": "^0.22.0",
     "koa": "next",
     "koa-router": "^7.0.1",
     "micro": "^6.2.0",
