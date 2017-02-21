@@ -8,9 +8,13 @@ const cheerio = require('cheerio');
 const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
 const encoding = require('encoding');
+const osmosis = require('./osmosis');
+
 let estate = {
   districts: []
 };
+
+let districts = null;
 
 function load(url) {
   // fetch(url, {
@@ -54,24 +58,6 @@ function load(url) {
 
 }
 
-// load("http://192.168.101.61:8080/keytone-activiti/service/identity/users")
-// load("http://www.fangdi.com.cn/complexpro.asp?page=3&districtID=14&Region_ID&projectAdr&projectName&startCod&buildingType=1&houseArea=0&averagePrice=0&selState&selCircle=0")
-//     .then((data) => {
-//       // console.log(data)
-//       let $ = cheerio.load(data);
-//       let options = $("select[name='districtID'] option");
-//       options.each(function() {
-//         console.log(`${$(this).val()} + ${$(this).text()}`);
-//       })
-//     });
-
-// page = 3
-// districtID = 14
-// buildingType = 1
-// houseArea = 0
-// averagePrice = 0
-// selState = ''
-//
 function getUrl(params) {
   let urlParam = Object.keys(params).map((pa) => `${pa}=${encodeURIComponent(params[pa])}`).join('&');
   return `http://www.fangdi.com.cn/complexpro.asp?${urlParam}`;
@@ -88,26 +74,46 @@ function init() {
     selState: '',
     selCircle: ''
   };
+  let times = 1;
+  let new_districts = null;
+  if (arguments[0]) {
+    times = arguments[0].times;
+    params.districtID = arguments[0].districts[0];
+    new_districts = arguments[0].districts;
+  }
   load(getUrl(params))
       .then((data) => {
+
+
         let $ = cheerio.load(data);
         let selected = $("select[name='districtID']");
-        let area_options = $("select[name='Region_ID'] option");
-        let temp = [];
-        console.log(area_options.length)
-        temp = area_options.map(function(i, el) {
-          // temp.push({index: $(this).val(), value: $(this).text()});
-          return {index: $(this).val(), value: $(this).text()};
-        }).get();
-
-        estate.districts.push({index: selected.val(), value: $("select[name='districtID'] option:selected").text(), area: temp});
-
-        console.log(estate)
-        console.log(estate.districts[0].area)
-        // options.each(function() {
-        //   estate.districts.push({index: $(this).val(), value: $(this).text(),
-        //     area: area_options});
-        // });
+        let area_options = null;
+        // let temp = [];
+        // console.log(area_options.length)
+        // temp = area_options.map(function(i, el) {
+        //   // temp.push({index: $(this).val(), value: $(this).text()});
+        //   return {index: $(this).val(), value: $(this).text()};
+        // }).get();
+        if (times === 1) {
+          districts = $("select[name='districtID'] option").map(function(i, el) {
+            return $(this).val()
+          }).get();
+          new_districts = districts;
+          //arguments[0].districts = districts;
+        }
+        osmosis({html: data, url: getUrl(params)}).then(function(context, data) {
+          area_options = data.result;
+        }).done(function() {
+          estate.districts.push({index: selected.val(), value: $("select[name='districtID'] option:selected").text(), area: area_options});
+          console.log(estate)
+          console.log(estate.districts[times - 1].area);
+          if(times === districts.length) {
+            return;
+          } else {
+            times++;
+            init({times, districts: new_districts.slice(1)});
+          }
+        })
       })
       .catch((e) => {
         console.error(e);
