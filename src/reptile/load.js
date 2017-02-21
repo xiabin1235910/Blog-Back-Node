@@ -88,18 +88,12 @@ function init() {
         let $ = cheerio.load(data);
         let selected = $("select[name='districtID']");
         let area_options = null;
-        // let temp = [];
-        // console.log(area_options.length)
-        // temp = area_options.map(function(i, el) {
-        //   // temp.push({index: $(this).val(), value: $(this).text()});
-        //   return {index: $(this).val(), value: $(this).text()};
-        // }).get();
+
         if (times === 1) {
           districts = $("select[name='districtID'] option").map(function(i, el) {
             return $(this).val()
           }).get();
           new_districts = districts;
-          //arguments[0].districts = districts;
         }
         osmosis({html: data, url: getUrl(params)}).then(function(context, data) {
           area_options = data.result;
