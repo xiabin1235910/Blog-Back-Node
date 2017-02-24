@@ -17,6 +17,7 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "cheerio": "^0.22.0",
+    "cheerio-tableparser": "^1.0.1",
     "encoding": "^0.1.12",
     "iconv-lite": "^0.4.15",
     "jschardet": "^1.4.1",
