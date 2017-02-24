@@ -3,60 +3,19 @@
 
 // import fetch from 'node-fetch';
 const fetch = require('node-fetch');
-const http = require('http');
 const cheerio = require('cheerio');
 const jschardet = require('jschardet');
-const iconv = require('iconv-lite');
 const encoding = require('encoding');
 const osmosis = require('./osmosis');
+
+const {load, loadUTF8} = require('./server');
+const paginate = require('./paginate');
 
 let estate = {
   districts: []
 };
 
 let districts = null;
-
-function load(url) {
-  // fetch(url, {
-  //   method: 'GET',
-  //   headers: {
-  //     'content-encoding': 'deflate'
-  //   }
-  // }).then((res) => {
-  //   // console.log();
-  //   console.log('iiii')
-  //   console.log(res.status)
-  //   console.log(res)
-  // })
-
-  return new Promise((resolve, reject) => {
-    http.get(url, (res) => {
-      var converterStream = iconv.decodeStream('gb2312');
-      res.pipe(converterStream)
-
-      let rawData = '';
-      converterStream.on('data', (chunk) => {
-        rawData += chunk;
-        return rawData;
-      });
-      res.on('end', () => {
-        try {
-          let parsedData = rawData;
-          // console.log(jschardet.detect(parsedData))
-          // console.log(iconv.decode(parsedData, 'utf8'))
-          resolve(parsedData);
-          // console.log(parsedData);
-        } catch (e) {
-          reject(e);
-          // console.log(e.message);
-        }
-      });
-
-    })
-  })
-
-
-}
 
 function getUrl(params) {
   let urlParam = Object.keys(params).map((pa) => `${pa}=${encodeURIComponent(params[pa])}`).join('&');
@@ -67,7 +26,7 @@ function getUrl(params) {
 function init() {
   let params = {
     page: 1,
-    districtID: 1,
+    districtID: 15,
     buildingType: 1,
     houseArea: 0,
     averagePrice: 0,
@@ -83,11 +42,15 @@ function init() {
   }
   load(getUrl(params))
       .then((data) => {
-
-
         let $ = cheerio.load(data);
         let selected = $("select[name='districtID']");
         let area_options = null;
+
+        let p = $("body > table").eq(2).find('tr').eq(-2).find("select option").map(function() {
+          return $(this).val()
+        }).get();
+
+        paginate(p)
 
         if (times === 1) {
           districts = $("select[name='districtID'] option").map(function(i, el) {
@@ -105,7 +68,7 @@ function init() {
             return;
           } else {
             times++;
-            init({times, districts: new_districts.slice(1)});
+            // init({times, districts: new_districts.slice(1)});
           }
         })
       })
@@ -114,4 +77,47 @@ function init() {
       })
 }
 
-init();
+// init();
+
+
+
+
+////  fot the test
+const osmos = require('osmosis');
+function getData() {
+  let params = {
+    page: 1,
+    districtID: 15,
+    buildingType: 1,
+    houseArea: 0,
+    averagePrice: 0,
+    selState: '',
+    selCircle: ''
+  };
+  osmos.get(getUrl(params))
+      .find('body > center > table[6] > tbody > tr:last > td[5] > a')
+      // .set('area')
+      .data(function(listing) {
+        // do something with listing data
+        console.log(listing)
+      })
+}
+
+let target = 1000;
+// getData()
+function getData1() {
+  setTimeout(function () {
+    loadUTF8("http://blog.csdn.net/y416854144/article/details/54342060").then(data => {
+      let $ = cheerio.load(data);
+      let p = $("#article_details").find(".article_r .link_view");
+      let totalS = p.text();
+      let total = totalS.slice(0, totalS.indexOf('人'));
+      console.log(total);
+      if (total < target) {
+        getData1();
+      }
+    })
+  }, 5 * 1000);
+}
+
+getData1()

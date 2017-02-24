@@ -7,7 +7,9 @@ module.exports = htmlParse =
             var selects = window.document.querySelector("select[@name='Region_ID']").childNodes;
             var areas = selects.filter(function(data, index) {
               return index >= 4 && index < selects.length - 1;
-            }).map((res) => res.text());
+            }).map((res) => {
+              return {index: res.value, data: res.text()};
+            });
             data.result = areas;
             next(window, data)
           })

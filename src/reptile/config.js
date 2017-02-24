@@ -8,9 +8,24 @@ const params = {
   selCircle: ''
 };
 
+const estateGeneral = {
+  state: '',
+  estateName: '',
+  estateAddress: '',
+  total: 0,
+  area: 0,
+  district: '',
+};
+
+const domain = 'http://www.fangdi.com.cn';
+
 function getUrl(params) {
   let urlParam = Object.keys(params).map((pa) => `${pa}=${encodeURIComponent(params[pa])}`).join('&');
-  return `http://www.fangdi.com.cn/complexpro.asp?${urlParam}`;
+  return `${domain}/complexpro.asp?${urlParam}`;
 }
 
-module.exports = {params, getUrl};
+function fillDomain(url) {
+  return `${domain}${url}`;
+}
+
+module.exports = {params, getUrl, fillDomain, estateGeneral};
