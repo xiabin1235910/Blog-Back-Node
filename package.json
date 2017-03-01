@@ -25,10 +25,13 @@
     "koa-router": "^7.0.1",
     "micro": "^6.2.0",
     "mkdirp": "^0.5.1",
+    "mysql": "^2.13.0",
     "node-fetch": "^1.6.3",
     "osmosis": "^1.1.2",
     "pattern-guard": "^1.0.0",
-    "promise-polyfill": "^6.0.2"
+    "promise-polyfill": "^6.0.2",
+    "sequelize": "^3.30.2",
+    "sequelize-cli": "^2.5.1"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
