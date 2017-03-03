@@ -6,10 +6,11 @@ const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 const jschardet = require('jschardet');
 const encoding = require('encoding');
-const osmosis = require('./osmosis');
+const osmosis = require('../osmosis');
 
-const {load, loadUTF8} = require('./server');
-const paginate = require('./paginate');
+const {load} = require('../server');
+
+let {District} = require('../model');
 
 let estate = {
   districts: []
@@ -23,7 +24,7 @@ function getUrl(params) {
 }
 
 
-function init() {
+function initArea() {
   let params = {
     page: 1,
     districtID: 15,
@@ -46,30 +47,29 @@ function init() {
         let selected = $("select[name='districtID']");
         let area_options = null;
 
-        let p = $("body > table").eq(2).find('tr').eq(-2).find("select option").map(function() {
-          return $(this).val()
-        }).get();
-
-        paginate(p)
-
         if (times === 1) {
           districts = $("select[name='districtID'] option").map(function(i, el) {
             return $(this).val()
           }).get();
           new_districts = districts;
-          console.log(new_districts)
         }
         osmosis({html: data, url: getUrl(params)}).then(function(context, data) {
           area_options = data.result;
         }).done(function() {
           estate.districts.push({index: selected.val(), value: $("select[name='districtID'] option:selected").text(), area: area_options});
+          // save to db ... for test
+          District.create({name: $("select[name='districtID'] option:selected").text(), index: selected.val()});
+
+
           console.log(estate)
           console.log(estate.districts[times - 1].area);
           if(times === districts.length) {
             return;
           } else {
             times++;
-            // init({times, districts: new_districts.slice(1)});
+            setTimeout(() => {
+              initArea({times, districts: new_districts.slice(1)})
+            }, 500);
           }
         })
       })
@@ -78,4 +78,4 @@ function init() {
       })
 }
 
-init();
+initArea();

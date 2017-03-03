@@ -9,3 +9,5 @@ let sequelize = new Sequelize('estate', 'root', 'root', {
     idle: 10000
   }
 });
+
+module.exports = sequelize;

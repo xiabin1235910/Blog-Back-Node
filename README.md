@@ -8,3 +8,9 @@ node version for the blog back management
 
 ## increase the CSDN blog visitors
 > node src/reptile/csdn/add-visit-count/visit
+
+
+## init table
+> node src/reptile/model/init.js
+## reptile estate area data and store them into mysql
+> node src/reptile/estate/area.js

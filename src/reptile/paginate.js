@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const cheerioTableparse = require('cheerio-tableparser');
 
-const load = require('./server');
+const {load} = require('./server');
 const {fillDomain, estateGeneral} = require('./config');
 
 const estateGeneralIndex = Object.keys(estateGeneral);
