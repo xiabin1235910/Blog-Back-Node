@@ -26,6 +26,7 @@
     "micro": "^6.2.0",
     "mkdirp": "^0.5.1",
     "mysql": "^2.13.0",
+    "mysql2": "^1.2.0",
     "node-fetch": "^1.6.3",
     "osmosis": "^1.1.2",
     "pattern-guard": "^1.0.0",
