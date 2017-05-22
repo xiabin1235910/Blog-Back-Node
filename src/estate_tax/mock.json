@@ -1,8 +1,8 @@
 {
-  "type": "normal",
-  "year": 3,
-  "original_value": 280,
-  "current_value": 580,
+  "type": "abnormal",
+  "year": 1,
+  "original_value": 300,
+  "current_value": 600,
   "single": true,
   "dimension": 110,
   "first": true,

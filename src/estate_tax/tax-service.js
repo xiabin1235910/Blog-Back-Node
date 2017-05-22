@@ -20,14 +20,20 @@ let tax_amount = {
     ext: 0, // 附加税
     pit: 0, // 个人所得税
     dt: 0, // 契税
-    pt: 0 // 房产税
+    pt: 0, // 房产税
+    media: 0 // 中介费
 };
 
 function calculate() {
-    let total = getGeneralVat("vat") + getGeneralVat("ext") + getPit() + getDt() + getPt();
+    let total = getGeneralVat("vat", true) + getGeneralVat("ext", true) + getPit() + getDt() + getPt() + getMedia();
     console.log(`total is ${total}`);
 
     console.log(tax_amount);
+}
+
+function getMedia () {
+    tax_amount.media = property.current_value * 0.02;
+    return property.current_value * 0.02;
 }
 
 function getPt() {
@@ -39,6 +45,7 @@ function getPt() {
             pt = property.current_value * 0.7 * 0.06;
         }
     }
+    tax_amount.pt = pt;
     return pt;
 }
 
@@ -53,6 +60,7 @@ function getDt() {
     } else {
         dt = (property.current_value - getGeneralVat("vat")) * 0.03;
     }
+    tax_amount.dt = dt;
     return dt;
 }
 
@@ -75,10 +83,11 @@ function getPit() {
             }
         }
     }
+    tax_amount.pit = pit;
     return pit;
 }
 
-function getGeneralVat(param) {
+function getGeneralVat(param, updateAmount) {
     let vat = 0;
     let taxRate = 0.006;
     if (param === "vat") {
@@ -95,7 +104,13 @@ function getGeneralVat(param) {
             vat = property.current_value / 1.05 * taxRate;
         }
     }
-    tax_amount.vat = vat;
+    if (updateAmount) {
+        if (param === "vat") {
+            tax_amount.vat = vat;
+        } else {
+            tax_amount.ext = vat;
+        }
+    }
     return vat;
 }
 
